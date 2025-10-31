@@ -35,6 +35,31 @@
 **Impact**
 - **Manual monitoring ↓ ~8 hrs/week**; faster mean-time-to-detect and mean-time-to-recover.
 
+```mermaid
+flowchart LR
+  subgraph Prod[Production]
+    P[Dashboards & Data Pipelines]
+  end
+
+  P --> Q[Metrics via BigQuery SQL]
+  Q --> S[SLIs/SLOs<br/>Freshness · Latency · Error rate]
+  S --> L[Looker Studio SLI Dashboard]
+  S --> AR[Alerting Rules<br/>(p90/p95 thresholds, SMA)]
+  AR --> N[Notifications (email/chat/on-call)]
+  N --> RB[Rapid-Recovery Runbook]
+  RB --> V[Validation Queries]
+  RB --> RF[Rollback or Deploy Fix]
+  V --> DEC{Resolved?}
+  RF --> DEC
+
+  DEC -- Yes --> P
+  DEC -- No --> ESC[Escalate / Triage]
+  ESC --> P
+
+  DEC --> PI[Post-incident Notes & Improvements]
+  PI --> Q
+
+```
 ---
 
 ### P2 — Search-Ad Analytics
@@ -51,11 +76,47 @@
 - Cut **time-to-insight to same-day** via parameterized BigQuery views and auto-refreshed Looker studio dashboards.
 - Produced **model-ready features and labels**, accelerating ranking and targeting experiments.
 
+```mermaid
+flowchart LR
+  %% Inputs
+  subgraph RAW[Raw Inputs]
+    A[Search-ad logs<br/>(impressions · clicks · spend · conv)]
+    B[Vendor & product metadata]
+    C[Promo/calendar & device/channel]
+  end
+
+  %% BigQuery layer
+  A & B & C --> D[BigQuery ETL<br/>(CTEs · window functions)]
+  D --> E[Decision-grade KPI Layer]
+
+  %% ML/Analytics
+  E --> F[Python/ML Notebooks<br/>(feature engineeer · clustering · classification/regression)]
+  F --> G[Insights & Models<br/>(cohorts · propensity · ROAS-lift)]
+  E --> Q[Feature/Label Tables]
+
+  %% BI / Readouts
+  E --> H[Looker Studio Dashboards]
+  G --> H
+  H --> I[Weekly Executive Readouts]
+
+  %% Decisions
+  I --> J[Decisions<br/>(budget reallocate · keyword expand/prune · day-parting)]
+
+  %% Quality & Refresh
+  E --> M[Auto-refresh & DQ checks<br/>(freshness · anomalies · schema drift)]
+  M --> H
+
+  %% Downstream links
+  G --> P4[P4: Relevance API]
+  G --> P6[P6: Incentive Targeting]
+  Q --> P4
+  Q --> P6
+```
 ---
 
 ### P3 — SQL Codebase Refactor & Data Ingestion and Extraction Pipelines
 **Problem.** Slow, costly queries and repeated ad-hoc pulls hurt velocity and consistency.  
-**Solution.** Refactored SQL and standardized KPI code; shipped **automated ingestion/extraction** with schema contracts.
+**Solution.** Refactored SQL and standardized KPI code; shipped **automated ingestion and extraction** with schema contracts.
 
 **Data/ML-oriented highlights**
 - **Faster queries, lower cost:** Applied date **partitioning** and **clustering** on large tables, simplified heavy CTEs, and verified gains with **bytes-scanned** checks, resulting in faster runs and lower cost.
@@ -65,6 +126,37 @@
 **Impact**
 - **Runtime & cost ↓ ~40%**; pipelines underpin **~95%** of analyses and dashboards.
 
+```mermaid
+flowchart LR
+  %% Sources
+  subgraph SRC[Sources]
+    S1[CSV/JSON exports]
+    S2[APIs]
+    S3[Ad-platform dumps]
+  end
+
+  %% Ingestion & Staging
+  SRC --> ING[Ingestion Jobs (Python · Scheduled)]
+  ING --> STG[Staging Tables]
+
+  %% Data Quality
+  STG --> DQ[Data Quality Checks<br/>(row count · null% · schema drift)]
+  DQ --> TR[Transform Layer<br/>(Parameterized SQL · CTEs · UDFs · TVFs · Macros)]
+
+  %% Performance Engineering
+  TR --> PERF[Performance Tuning<br/>(Partitioning · Clustering · Bytes-scanned checks)]
+
+  %% Gold Layer
+  PERF --> GOLD[Gold Tables & Views<br/>(Versioned · Schema contracts · Lineage)]
+
+  %% Downstream Consumers
+  GOLD --> BI[BI & Analytics<br/>(Looker Studio · Views)]
+  GOLD --> ML[ML Outputs<br/>(Feature & Label Tables)]
+
+  %% Observability / Catalog
+  PERF --> MON[Perf Monitor<br/>(Query plans · Cost)]
+  GOLD --> CAT[Data Catalog<br/>(Docs · Lineage)]
+```
 ---
 
 ### P4 — Keyword Product Relevance-Scoring API with Machine Learning Model for Search Engine Optimization (SEO)
@@ -79,6 +171,37 @@
 **Impact**
 - **A/B iteration ↑ from ~1 → 3 tests/week**, accelerating learning and ranking improvements.
 
+```mermaid
+flowchart LR
+  %% Data & Features
+  L[Search Logs<br/>(queries · clicks · conversions)]
+  C[Catalog / Product Metadata]
+  U[User/Session Signals<br/>(dwell · co-click · co-purchase)]
+  L & C & U --> FE[Feature Engineering<br/>(tokens · n-grams · embeddings · BM25 · cosine · edit dist)]
+
+  %% Offline Training & Eval
+  FE --> TR[Training (PyTorch)<br/>(class weighting · early stopping · CV)]
+  TR --> EV[Offline Evaluation<br/>(AUC-PR · NDCG@k · MAP · ablations · calibration)]
+  EV --> MA[Model Artifact<br/>(TorchScript)]
+
+  %% Serving
+  MA --> SVC[FastAPI Inference Service<br/>(schema validation · micro-batch · cache)]
+  SVC --> RANK[SEO Ranking Pipeline<br/>(score → rank)]
+
+  %% Experimentation / Rollout
+  RANK --> AB[A/B Platform<br/>(feature flags · thresholds)]
+  AB --> RAMP[Rollout Plan<br/>(shadow → 5% → 25% → 100%)]
+  RAMP --> MET[Online Metrics<br/>(CTR · CVR · revenue · latency)]
+
+  %% Observability
+  SVC --> OBS[Observability<br/>(latency · throughput · errors)]
+  MET --> DEC[Go/No-Go & Tuning]
+  EV --> DEC
+
+  %% Feedback Loop
+  DEC --> LOOP[Retraining / Threshold Tuning]
+  LOOP --> FE
+```
 ---
 
 ### P5 — Event-Driven Ad-Traffic Collector
@@ -93,6 +216,7 @@
 **Impact**
 - **Retrieval latency ↓ ~88%**; fresher signals for KPIs, model training, and A/B tests.
 
+```mermaid
 flowchart LR
   S[Shared folders / Cloud storage<br/>(CSV, JSON)] --> T[One-click Desktop Tool<br/>(Python collector)]
   T --> F[Incremental fetch & checkpoint]
@@ -105,6 +229,7 @@ flowchart LR
   %% Observability
   F --> O[Freshness monitor (lag, completeness)]
   O --> A[Alerts & run logs]
+```
 
 ---
 
