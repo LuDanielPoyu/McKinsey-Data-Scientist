@@ -81,18 +81,18 @@ flowchart LR
 flowchart LR
   %% Inputs
   subgraph RAW["Raw inputs"]
-    A["Search-ad logs (impressions · clicks · spend · conv)"]
+    A["Search-ad logs"]
     B["Vendor & product metadata"]
     C["Promo/calendar & device/channel"]
   end
 
   %% BigQuery layer
-  A & B & C --> D["BigQuery ETL (CTEs · window functions)"]
+  A & B & C --> D["BigQuery CTEs, window functions)"]
   D --> E["Decision-grade KPI layer"]
 
   %% ML / Analytics
-  E --> F["Python/ML notebooks (feature engineering · clustering · classification/regression)"]
-  F --> G["Insights & models (cohorts · propensity · ROAS-lift)"]
+  E --> F["Python/ML notebooks"]
+  F --> G["Insights & models"]
   E --> Q["Feature and label tables"]
 
   %% BI / Readouts
@@ -101,10 +101,10 @@ flowchart LR
   H --> I["Weekly executive readouts"]
 
   %% Decisions
-  I --> J["Decisions (budget reallocation · keyword expand/prune · day-parting)"]
+  I --> J["Decisions"]
 
   %% Quality & Refresh
-  E --> M["Auto-refresh & DQ checks (freshness · anomalies · schema drift)"]
+  E --> M["Auto-refresh & DQ checks"]
   M --> H
 
   %% Downstream links
@@ -137,26 +137,26 @@ flowchart LR
   end
 
   %% Ingestion & Staging
-  SRC --> ING["Ingestion jobs (Python · scheduled)"]
+  SRC --> ING["Ingestion jobs"]
   ING --> STG["Staging tables"]
 
   %% Data Quality
-  STG --> DQ["Data quality checks (row count · null% · schema drift)"]
-  DQ --> TR["Transform layer (parameterized SQL · CTEs · UDFs · TVFs · macros)"]
+  STG --> DQ["Data quality checks"]
+  DQ --> TR["Transform layer"]
 
   %% Performance Engineering
-  TR --> PERF["Performance tuning (partitioning · clustering · bytes-scanned checks)"]
+  TR --> PERF["Performance tuning"]
 
   %% Gold Layer
-  PERF --> GOLD["Gold tables and views (versioned · schema contracts · lineage)"]
+  PERF --> GOLD["Gold tables and views"]
 
   %% Downstream Consumers
-  GOLD --> BI["BI and analytics (Looker Studio · views)"]
-  GOLD --> ML["ML outputs (feature and label tables)"]
+  GOLD --> BI["BI and analytics"]
+  GOLD --> ML["ML outputs"]
 
   %% Observability / Catalog
-  PERF --> MON["Perf monitor (query plans · cost)"]
-  GOLD --> CAT["Data catalog (docs · lineage)"]
+  PERF --> MON["Perf monitor"]
+  GOLD --> CAT["Data catalog"]
 
 ```
 ---
@@ -176,32 +176,32 @@ flowchart LR
 ```mermaid
 flowchart LR
   %% Data & Features
-  L["Search logs (queries · clicks · conversions)"]
+  L["Search logs"]
   C["Catalog / product metadata"]
-  U["User/session signals (dwell · co-click · co-purchase)"]
-  L & C & U --> FE["Feature engineering (tokens · n-grams · embeddings · BM25 · cosine · edit distance)"]
+  U["User/session signals"]
+  L & C & U --> FE["Feature engineering"]
 
   %% Offline Training & Eval
-  FE --> TR["Training (PyTorch) (class weighting · early stopping · cross-validation)"]
-  TR --> EV["Offline evaluation (AUC-PR · NDCG@k · MAP · ablations · calibration)"]
-  EV --> MA["Model artifact (TorchScript)"]
+  FE --> TR["Training (PyTorch)"]
+  TR --> EV["Offline evaluation"]
+  EV --> MA["Model artifact"]
 
   %% Serving
-  MA --> SVC["FastAPI inference service (schema validation · micro-batch · cache)"]
-  SVC --> RANK["SEO ranking pipeline (score → rank)"]
+  MA --> SVC["FastAPI inference service"]
+  SVC --> RANK["SEO ranking pipeline"]
 
   %% Experimentation / Rollout
-  RANK --> AB["A/B platform (feature flags · thresholds)"]
-  AB --> RAMP["Rollout plan (shadow → 5% → 25% → 100%)"]
-  RAMP --> MET["Online metrics (CTR · CVR · revenue · latency)"]
+  RANK --> AB["A/B platform"]
+  AB --> RAMP["Rollout plan"]
+  RAMP --> MET["Online metrics"]
 
   %% Observability
-  SVC --> OBS["Observability (latency · throughput · errors)"]
+  SVC --> OBS["Observability"]
   MET --> DEC["Go/No-Go and tuning"]
   EV  --> DEC
 
   %% Feedback Loop
-  DEC --> LOOP["Retraining / threshold tuning"]
+  DEC --> LOOP["Retraining and threshold tuning"]
   LOOP --> FE
 
 ```
