@@ -37,27 +37,28 @@
 
 ```mermaid
 flowchart LR
-  subgraph Prod[Production]
-    P[Dashboards & Data Pipelines]
+  subgraph Prod["Production"]
+    P["Dashboards & Data Pipelines"]
   end
 
-  P --> Q[Metrics via BigQuery SQL]
-  Q --> S[SLIs/SLOs<br/>Freshness · Latency · Error rate]
-  S --> L[Looker Studio SLI Dashboard]
-  S --> AR[Alerting Rules<br/>(p90/p95 thresholds, SMA)]
-  AR --> N[Notifications (email/chat/on-call)]
-  N --> RB[Rapid-Recovery Runbook]
-  RB --> V[Validation Queries]
-  RB --> RF[Rollback or Deploy Fix]
-  V --> DEC{Resolved?}
+  P --> Q["Metrics via BigQuery SQL"]
+  Q --> S["SLIs/SLOs (Freshness · Latency · Error rate)"]
+  S --> L["Looker Studio SLI Dashboard"]
+  S --> AR["Alerting Rules (p90/p95 thresholds, SMA)"]
+  AR --> N["Notifications (email/chat/on-call)"]
+  N --> RB["Rapid-Recovery Runbook"]
+  RB --> V["Validation Queries"]
+  RB --> RF["Rollback or Deploy Fix"]
+  V --> DEC{"Resolved?"}
   RF --> DEC
 
   DEC -- Yes --> P
-  DEC -- No --> ESC[Escalate / Triage]
+  DEC -- No --> ESC["Escalate / Triage"]
   ESC --> P
 
-  DEC --> PI[Post-incident Notes & Improvements]
+  DEC --> PI["Post-incident Notes & Improvements"]
   PI --> Q
+
 
 ```
 ---
