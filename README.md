@@ -80,36 +80,36 @@ flowchart LR
 ```mermaid
 flowchart LR
   %% Inputs
-  subgraph RAW[Raw Inputs]
-    A[Search-ad logs<br/>(impressions · clicks · spend · conv)]
-    B[Vendor & product metadata]
-    C[Promo/calendar & device/channel]
+  subgraph RAW["Raw inputs"]
+    A["Search-ad logs (impressions · clicks · spend · conv)"]
+    B["Vendor & product metadata"]
+    C["Promo/calendar & device/channel"]
   end
 
   %% BigQuery layer
-  A & B & C --> D[BigQuery ETL<br/>(CTEs · window functions)]
-  D --> E[Decision-grade KPI Layer]
+  A & B & C --> D["BigQuery ETL (CTEs · window functions)"]
+  D --> E["Decision-grade KPI layer"]
 
-  %% ML/Analytics
-  E --> F[Python/ML Notebooks<br/>(feature engineeer · clustering · classification/regression)]
-  F --> G[Insights & Models<br/>(cohorts · propensity · ROAS-lift)]
-  E --> Q[Feature/Label Tables]
+  %% ML / Analytics
+  E --> F["Python/ML notebooks (feature engineering · clustering · classification/regression)"]
+  F --> G["Insights & models (cohorts · propensity · ROAS-lift)"]
+  E --> Q["Feature and label tables"]
 
   %% BI / Readouts
-  E --> H[Looker Studio Dashboards]
+  E --> H["Looker Studio dashboards"]
   G --> H
-  H --> I[Weekly Executive Readouts]
+  H --> I["Weekly executive readouts"]
 
   %% Decisions
-  I --> J[Decisions<br/>(budget reallocate · keyword expand/prune · day-parting)]
+  I --> J["Decisions (budget reallocation · keyword expand/prune · day-parting)"]
 
   %% Quality & Refresh
-  E --> M[Auto-refresh & DQ checks<br/>(freshness · anomalies · schema drift)]
+  E --> M["Auto-refresh & DQ checks (freshness · anomalies · schema drift)"]
   M --> H
 
   %% Downstream links
-  G --> P4[P4: Relevance API]
-  G --> P6[P6: Incentive Targeting]
+  G --> P4["P4: Relevance API"]
+  G --> P6["P6: Incentive Targeting"]
   Q --> P4
   Q --> P6
 ```
@@ -130,33 +130,34 @@ flowchart LR
 ```mermaid
 flowchart LR
   %% Sources
-  subgraph SRC[Sources]
-    S1[CSV/JSON exports]
-    S2[APIs]
-    S3[Ad-platform dumps]
+  subgraph SRC["Sources"]
+    S1["CSV/JSON exports"]
+    S2["APIs"]
+    S3["Ad-platform dumps"]
   end
 
   %% Ingestion & Staging
-  SRC --> ING[Ingestion Jobs (Python · Scheduled)]
-  ING --> STG[Staging Tables]
+  SRC --> ING["Ingestion jobs (Python · scheduled)"]
+  ING --> STG["Staging tables"]
 
   %% Data Quality
-  STG --> DQ[Data Quality Checks<br/>(row count · null% · schema drift)]
-  DQ --> TR[Transform Layer<br/>(Parameterized SQL · CTEs · UDFs · TVFs · Macros)]
+  STG --> DQ["Data quality checks (row count · null% · schema drift)"]
+  DQ --> TR["Transform layer (parameterized SQL · CTEs · UDFs · TVFs · macros)"]
 
   %% Performance Engineering
-  TR --> PERF[Performance Tuning<br/>(Partitioning · Clustering · Bytes-scanned checks)]
+  TR --> PERF["Performance tuning (partitioning · clustering · bytes-scanned checks)"]
 
   %% Gold Layer
-  PERF --> GOLD[Gold Tables & Views<br/>(Versioned · Schema contracts · Lineage)]
+  PERF --> GOLD["Gold tables and views (versioned · schema contracts · lineage)"]
 
   %% Downstream Consumers
-  GOLD --> BI[BI & Analytics<br/>(Looker Studio · Views)]
-  GOLD --> ML[ML Outputs<br/>(Feature & Label Tables)]
+  GOLD --> BI["BI and analytics (Looker Studio · views)"]
+  GOLD --> ML["ML outputs (feature and label tables)"]
 
   %% Observability / Catalog
-  PERF --> MON[Perf Monitor<br/>(Query plans · Cost)]
-  GOLD --> CAT[Data Catalog<br/>(Docs · Lineage)]
+  PERF --> MON["Perf monitor (query plans · cost)"]
+  GOLD --> CAT["Data catalog (docs · lineage)"]
+
 ```
 ---
 
@@ -175,33 +176,34 @@ flowchart LR
 ```mermaid
 flowchart LR
   %% Data & Features
-  L[Search Logs<br/>(queries · clicks · conversions)]
-  C[Catalog / Product Metadata]
-  U[User/Session Signals<br/>(dwell · co-click · co-purchase)]
-  L & C & U --> FE[Feature Engineering<br/>(tokens · n-grams · embeddings · BM25 · cosine · edit dist)]
+  L["Search logs (queries · clicks · conversions)"]
+  C["Catalog / product metadata"]
+  U["User/session signals (dwell · co-click · co-purchase)"]
+  L & C & U --> FE["Feature engineering (tokens · n-grams · embeddings · BM25 · cosine · edit distance)"]
 
   %% Offline Training & Eval
-  FE --> TR[Training (PyTorch)<br/>(class weighting · early stopping · CV)]
-  TR --> EV[Offline Evaluation<br/>(AUC-PR · NDCG@k · MAP · ablations · calibration)]
-  EV --> MA[Model Artifact<br/>(TorchScript)]
+  FE --> TR["Training (PyTorch) (class weighting · early stopping · cross-validation)"]
+  TR --> EV["Offline evaluation (AUC-PR · NDCG@k · MAP · ablations · calibration)"]
+  EV --> MA["Model artifact (TorchScript)"]
 
   %% Serving
-  MA --> SVC[FastAPI Inference Service<br/>(schema validation · micro-batch · cache)]
-  SVC --> RANK[SEO Ranking Pipeline<br/>(score → rank)]
+  MA --> SVC["FastAPI inference service (schema validation · micro-batch · cache)"]
+  SVC --> RANK["SEO ranking pipeline (score → rank)"]
 
   %% Experimentation / Rollout
-  RANK --> AB[A/B Platform<br/>(feature flags · thresholds)]
-  AB --> RAMP[Rollout Plan<br/>(shadow → 5% → 25% → 100%)]
-  RAMP --> MET[Online Metrics<br/>(CTR · CVR · revenue · latency)]
+  RANK --> AB["A/B platform (feature flags · thresholds)"]
+  AB --> RAMP["Rollout plan (shadow → 5% → 25% → 100%)"]
+  RAMP --> MET["Online metrics (CTR · CVR · revenue · latency)"]
 
   %% Observability
-  SVC --> OBS[Observability<br/>(latency · throughput · errors)]
-  MET --> DEC[Go/No-Go & Tuning]
-  EV --> DEC
+  SVC --> OBS["Observability (latency · throughput · errors)"]
+  MET --> DEC["Go/No-Go and tuning"]
+  EV  --> DEC
 
   %% Feedback Loop
-  DEC --> LOOP[Retraining / Threshold Tuning]
+  DEC --> LOOP["Retraining / threshold tuning"]
   LOOP --> FE
+
 ```
 ---
 
@@ -219,17 +221,18 @@ flowchart LR
 
 ```mermaid
 flowchart LR
-  S[Shared folders / Cloud storage<br/>(CSV, JSON)] --> T[One-click Desktop Tool<br/>(Python collector)]
-  T --> F[Incremental fetch & checkpoint]
-  F --> V[Schema / type validation & reconciliation]
-  V --> W[Idempotent write]
-  W --> BQ[BigQuery staging]
-  BQ --> P[Partitioned & clustered tables<br/>(query-ready)]
-  P --> K[KPIs & dashboards]
-  P --> M[ML features & labels]
+  S["Shared folders or cloud storage (CSV, JSON)"] --> T["One-click desktop tool (Python collector)"]
+  T --> F["Incremental fetch and checkpoint"]
+  F --> V["Schema and type validation with reconciliation"]
+  V --> W["Idempotent write"]
+  W --> BQ["BigQuery staging"]
+  BQ --> P["Partitioned and clustered tables (query-ready)"]
+  P --> K["KPIs and dashboards"]
+  P --> M["ML features and labels"]
+
   %% Observability
-  F --> O[Freshness monitor (lag, completeness)]
-  O --> A[Alerts & run logs]
+  F --> O["Freshness monitor (lag · completeness)"]
+  O --> A["Alerts and run logs"]
 ```
 
 ---
