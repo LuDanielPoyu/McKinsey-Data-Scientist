@@ -83,35 +83,28 @@ flowchart LR
   subgraph RAW["Raw inputs"]
     A["Search-ad logs"]
     B["Vendor & product metadata"]
-    C["Promo/calendar & device/channel"]
+    C["Promo/calendar · device/channel"]
   end
 
   %% BigQuery layer
-  A & B & C --> D["BigQuery CTEs, window functions)"]
+  A & B & C --> D["BigQuery ETL (CTEs · window functions)"]
   D --> E["Decision-grade KPI layer"]
 
   %% ML / Analytics
   E --> F["Python/ML notebooks"]
   F --> G["Insights & models"]
-  E --> Q["Feature and label tables"]
+  E --> Q["Feature & label tables"]
 
   %% BI / Readouts
   E --> H["Looker Studio dashboards"]
   G --> H
   H --> I["Weekly executive readouts"]
-
-  %% Decisions
-  I --> J["Decisions"]
+  I --> J["Decisions (budget · bids · keywords)"]
 
   %% Quality & Refresh
   E --> M["Auto-refresh & DQ checks"]
   M --> H
 
-  %% Downstream links
-  G --> P4["P4: Relevance API"]
-  G --> P6["P6: Incentive Targeting"]
-  Q --> P4
-  Q --> P6
 ```
 ---
 
