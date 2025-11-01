@@ -42,10 +42,10 @@ flowchart LR
   end
 
   P --> Q["Metrics via BigQuery SQL"]
-  Q --> S["SLIs/SLOs (Freshness · Latency · Error rate)"]
-  S --> L["Looker Studio SLI Dashboard"]
-  S --> AR["Alerting Rules (p90/p95 thresholds, SMA)"]
-  AR --> N["Notifications (email/chat/on-call)"]
+  Q --> S["SLIs/SLOs"]
+  S --> L["Looker Studio Dashboard"]
+  S --> AR["Alerting Rules"]
+  AR --> N["Notifications"]
   N --> RB["Rapid-Recovery Runbook"]
   RB --> V["Validation Queries"]
   RB --> RF["Rollback or Deploy Fix"]
@@ -87,7 +87,7 @@ flowchart LR
   end
 
   %% BigQuery layer
-  A & B & C --> D["BigQuery ETL (CTEs · window functions)"]
+  A & B & C --> D["BigQuery ETL"]
   D --> E["Decision-grade KPI layer"]
 
   %% ML / Analytics
@@ -99,7 +99,7 @@ flowchart LR
   E --> H["Looker Studio dashboards"]
   G --> H
   H --> I["Weekly executive readouts"]
-  I --> J["Decisions (budget · bids · keywords)"]
+  I --> J["Decisions"]
 
   %% Quality & Refresh
   E --> M["Auto-refresh & DQ checks"]
@@ -214,17 +214,17 @@ flowchart LR
 
 ```mermaid
 flowchart LR
-  S["Shared folders or cloud storage (CSV, JSON)"] --> T["One-click desktop tool (Python collector)"]
+  S["Shared folders or cloud storage"] --> T["One-click desktop tool"]
   T --> F["Incremental fetch and checkpoint"]
   F --> V["Schema and type validation with reconciliation"]
   V --> W["Idempotent write"]
   W --> BQ["BigQuery staging"]
-  BQ --> P["Partitioned and clustered tables (query-ready)"]
+  BQ --> P["Partitioned and clustered tables"]
   P --> K["KPIs and dashboards"]
   P --> M["ML features and labels"]
 
   %% Observability
-  F --> O["Freshness monitor (lag · completeness)"]
+  F --> O["Freshness monitor"]
   O --> A["Alerts and run logs"]
 ```
 
