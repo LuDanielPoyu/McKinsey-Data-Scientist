@@ -244,12 +244,12 @@ flowchart LR
 
 ```mermaid
 flowchart LR
-  A[Problem: Low ad-setup adoption in mid/long-tail vendors] --> B[Segment vendors - K-means or Hierarchical + PCA]
-  B --> C[Forecast response - uplift and propensity models]
-  C --> D[Simulate and choose incentives - credits, bundles, managed setup]
+  A[Problem: Low ad-setup adoption in mid/long-tail vendors] --> B[Segment vendors]
+  B --> C[Forecast response]
+  C --> D[Simulate and choose incentives]
   D --> E[Design targeting rules]
   E --> F[Deploy via parameterized SQL and dashboards]
-  F --> G[Monitor and govern - AB or CUPED; drift checks PSI and KL; alerts]
+  F --> G[Monitor and govern]
   G --> H[Impact: Activation +13% in first month]
 
   I[Consultants and Client Strategy Team]
