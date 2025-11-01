@@ -231,16 +231,31 @@ flowchart LR
 ---
 
 ### P6 — Incentive Targeting Analytics for Mid/Long-Tail Vendors
-**Problem.** Activation was low in key segments despite ongoing spend.  
-**Solution.** Analytical segmentation of **ad-setting patterns** and partnership with consultant and client's strategy teams to design targeting rules.
+**Problem.** Low adoption of ad setup among mid/long-tail vendors, suppressing ad spend and revenue.
+**Solution.** **Segmented vendors** by ad-setup behavior and partnered with consultants and the client’s strategy team to design **targeting rules** that raised ad-setup activation.
 
 **Data/ML-oriented highlights**
-- **Segmentation:** cohorting by spend tier, adtype mix, and historical response; simple uplift analyses to prioritize cohorts.
-- **Design & evaluation:** experiment blueprint (**experiment design**, guardrails, success metrics), with weekly readouts.
-- **Operationalization:** SQL rules and dashboards that ops can apply without code changes; monitoring for post-launch drift.
+- **Segmentation:** Segment vendors with **K-means or hierarchical clustering** (optionally PCA) to surface mid/long-tail cohorts with low ad-setup adoption and high lift potential.
+- **Incentive design and Prediction:** Use uplift and propensity models to forecast segment response, then choose the best incentive (ad credits/discounts, ready-made campaign bundles, or short-term managed setup by our team) via a lightweight policy simulator to maximize activation and ROI.
+- **Tracking and Governance:** SQL rules and dashboards that ops can apply without code changes; monitoring for post-launch drift after targeting rules are applied.
 
 **Impact**
 - **Activation rate ↑ ~13%** in targeted cohorts during first-month rollout.
+
+```mermaid
+flowchart LR
+  A[Problem: Low ad-setup adoption in mid/long-tail vendors] --> B[Segment vendors\nK-means / Hierarchical (+PCA)]
+  B --> C[Forecast segment response\nUplift + Propensity models]
+  C --> D[Simulate & choose incentives\n(ad credits/discounts, bundles, managed setup)]
+  D --> E[Design targeting rules]
+  E --> F[Ops deploy rules\nParameterized SQL + Dashboards]
+  F --> G[Monitor & govern]
+  G --> H[Impact: Activation ↑ ~13%\n(first-month rollout)]
+
+  %% Collaboration
+  I[[Consultants + Client Strategy Team]]
+  I -. co-design .-> E
+```
 
 ---
 
