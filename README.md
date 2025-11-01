@@ -244,37 +244,15 @@ flowchart LR
 
 ```mermaid
 flowchart LR
-  A[Problem: Low ad-setup adoption in mid/long-tail vendors] --> B[Segment vendors\nK-means / Hierarchical (+PCA)]
-  B --> C[Forecast segment response\nUplift + Propensity models]
-  C --> D[Simulate & choose incentives\n(ad credits/discounts, bundles, managed setup)]
+  A[Problem: Low ad-setup adoption in mid/long-tail vendors] --> B[Segment vendors<br/>K-means / Hierarchical + PCA]
+  B --> C[Forecast segment response<br/>Uplift + Propensity models]
+  C --> D[Simulate and choose incentives<br/>credits / bundles / managed setup]
   D --> E[Design targeting rules]
-  E --> F[Ops deploy rules\nParameterized SQL + Dashboards]
-  F --> G[Monitor & govern]
-  G --> H[Impact: Activation ↑ ~13%\n(first-month rollout)]
+  E --> F[Ops deploy rules<br/>parameterized SQL + dashboards]
+  F --> G[Monitor and govern<br/>A/B or CUPED; drift checks (PSI, KL); alerts]
+  G --> H[Impact: Activation +13%<br/>first month]
 
-  %% Collaboration
   I[[Consultants + Client Strategy Team]]
-  I -. co-design .-> E
+  I -.-> E
 ```
 
----
-
-## Impact Highlights (Summary)
-- Ops & reliability: **–8 hrs/week** manual monitoring; faster incident recovery.  
-- Analytics foundation: Unified **BigQuery** KPI layer enabling **weekly exec decisions**.  
-- Efficiency: SQL refactor + pipelines → **–40%** runtime/cost; coverage of **~95%** analyses.  
-- Experiment velocity: Relevance API → **1 → 3** A/B tests per week.  
-- Data freshness: Event-driven collector → **–88%** latency.  
-- Growth: Incentive targeting → **+13%** activation in focus segments.
-
----
-
-## Ops & Experimentation Loops (Simplified)
-
-```mermaid
-flowchart LR
-  A[Prod Pipelines] --> B[Health Checks & Alerts]
-  B --> C[On-Call Runbook]
-  C --> D[Rapid Recovery]
-  D --> A
-```
