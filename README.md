@@ -232,7 +232,7 @@ flowchart LR
 
 ### P6 — Incentive Targeting Analytics for Mid/Long-Tail Vendors
 **Problem.** Activation was low in key segments despite ongoing spend.  
-**Solution.** Analytical segmentation of **ad-setting patterns** and partnership with strategy/consulting teams to design targeting rules.
+**Solution.** Analytical segmentation of **ad-setting patterns** and partnership with consultant and client's strategy teams to design targeting rules.
 
 **Data/ML-oriented highlights**
 - **Segmentation:** cohorting by spend tier, adtype mix, and historical response; simple uplift analyses to prioritize cohorts.
