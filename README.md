@@ -24,7 +24,7 @@
 ## Project Details
 
 ### P1 — Data Platform Reliability & Recovery
-**Problem.** Manual checks for dashboard and data pipeline health created toil and slowed incident response.  
+**Problem.** Manual checks for dashboard and data pipeline health created toil and slowed incident response.<br>  
 **Solution.** Programmatic **health checks** and **alerting** backed by BigQuery-derived SLIs and SLOs, plus a **rapid-recovery runbook**.
 
 **Data/ML-oriented highlights**
