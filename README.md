@@ -24,12 +24,14 @@
 ## Project Details
 
 ### P1 — Data Platform Reliability & Recovery
-**Problem.** Manual checks for dashboard and data pipeline health created toil and slowed incident response.<br>  
-**Solution.** Programmatic **health checks** and **alerting** backed by BigQuery-derived SLIs and SLOs, plus a **rapid-recovery runbook**.<br>
+**Problem.** Manual checks for dashboard and data pipeline health created toil and slowed incident response.
+
+**Solution.** Programmatic **health checks** and **alerting** backed by BigQuery-derived SLIs and SLOs, plus a **rapid-recovery runbook**.
+
 **Data/ML-oriented highlights**
 - **SLIs/SLOs:** freshness lag, DAG latency, error rates; computed with **BigQuery SQL** window analytics and surfaced in **Looker Studio**.
 - **Anomaly detection:** rolling-window thresholds (p90/p95) trigger alerts; noisy spikes damped with simple moving averages.
-- **Operations:** runbooks with validation queries, rollback and forward procedures, and post-incident notes for continuous improvement.<br>
+- **Operations:** runbooks with validation queries, rollback and forward procedures, and post-incident notes for continuous improvement.
 
 **Impact**
 - **Manual monitoring ↓ ~8 hrs/week**; faster mean-time-to-detect and mean-time-to-recover.
