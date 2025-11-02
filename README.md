@@ -66,6 +66,7 @@ flowchart LR
 
 ### P2 — Search-Ad Analytics
 **Problem.**  Decision cycles needed a decision-grade data layer and to extract revenue-driving, model-optimizing insights from search-ad data.
+
 **Solution.** Built a decision-grade analytics layer in BigQuery and a Python, ML pipeline for feature engineering, cohort clustering, and supervised classification/regression, and time-series baselines to extract insights that drive revenue from search-ad logs and optimize e-commerce ad models; delivered reusable SQL (CTEs/windows) and notebooks that power weekly executive readouts.
 
 **Data/ML-oriented highlights**
@@ -111,6 +112,7 @@ flowchart LR
 
 ### P3 — SQL Codebase Refactor & Data Ingestion and Extraction Pipelines
 **Problem.** Slow, costly queries and repeated ad-hoc pulls hurt velocity and consistency.  
+
 **Solution.** Refactored SQL and standardized KPI code; shipped **automated ingestion and extraction** with schema contracts.
 
 **Data/ML-oriented highlights**
@@ -157,6 +159,7 @@ flowchart LR
 
 ### P4 — Keyword Product Relevance-Scoring API with Machine Learning Model for Search Engine Optimization (SEO)
 **Problem.** A/B cycles for SEO ranking were slow, and keyword–product relevance scores lacked accuracy, limiting measurable lift. 
+
 **Solution.** A **Python REST API** that serves a trained **PyTorch** model to score keyword–product pairs for the SEO ranking pipeline.
 
 **Data/ML-oriented highlights**
@@ -203,6 +206,7 @@ flowchart LR
 
 ### P5 — Event-Driven Ad-Traffic Collector
 **Problem.** Manual retrieval and laggy availability delayed downstream analytics and experiments.  
+
 **Solution.** **Event-driven Python collector** with incremental fetch, retries, and idempotent writes to ready-to-query tables.
 
 **Data/ML-oriented highlights**
@@ -233,6 +237,7 @@ flowchart LR
 
 ### P6 — Incentive Targeting Analytics for Mid/Long-Tail Vendors
 **Problem.** Low adoption of ad setup among mid/long-tail vendors, suppressing ad spend and revenue.
+
 **Solution.** **Segmented vendors** by ad-setup behavior and partnered with consultants and the client’s strategy team to design **targeting rules** that raised ad-setup activation.
 
 **Data/ML-oriented highlights**
