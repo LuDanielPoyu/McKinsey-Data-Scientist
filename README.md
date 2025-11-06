@@ -1,6 +1,7 @@
 # McKinsey-Data-Scientist
 
 **Role:** Data Scientist (Full-Time: 40 hrs/wk)  
+
 **When:** Jan. 2025 – Jan. 2026 *(expected)* · **Location:** Taipei, Taiwan  
 
 > **Disclaimer:** This portfolio uses sanitized descriptions and **synthetic examples only**.  
