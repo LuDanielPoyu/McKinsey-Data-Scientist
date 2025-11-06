@@ -13,11 +13,10 @@
 | Project | Problem | What I Built | Result | Stack |
 |---|---|---|---|---|
 | **P1. Data Platform Reliability & Recovery** | Manual checks and slow incident response around dashboards and data pipelines | Health checks, alerting, and rapid-recovery runbook | **Manual monitoring ↓ ~8 hrs/week** | **Python**, **BigQuery SQL** (freshness/latency SLIs), **Monitoring/Alerting**, **Operational Runbooks**, Looker Studio Dashboard |
-| **P2. Search-Ad Analytics** | Decision cycles needed a decision-grade data layer to extract revenue-driving, model-optimizing insights from search-ad data | Decision-grade BigQuery SQL and Python analytics with consultants | Growth opportunities surfaced with insights; faster weekly decisions;  support weekly exec readouts | **BigQuery SQL** (CTEs, window/analytic functions), **Python** (pandas), **Machine Learning (prediction, clustering, classification)**, Looker Studio Dashboards |
-| **P3. SQL Codebase Refactor & Data Ingestion and Extraction Pipelines** | Costly, slow queries; ad-hoc data pulls | Refactored entire SQL codebase and redefine KPI code; automated ingest and extract pipelines reused across workstreams | **Query runtime & cost ↓ ~40%**; pipelines power **~95%** of analyses | **BigQuery SQL**, **Python**, **Scheduled Jobs** |
-| **P4. Keyword Product Relevance-Scoring API with Machine Learning Model for Search Engine Optimization (SEO)** | Slow A/B iteration on relevance ranking and low accuracy in relevance predictions limited gains| Automated Production Python API embedded with a trained machine learning model that scores keyword–product pairs and feeds the SEO ranking pipeline | **A/B cadence ↑ 1 → 3 tests/week** | **Python**, **PyTorch**, **REST API**, **pandas/NumPy**, **Experimentation Platform (A/B)** |
+| **P2. Search-Ad Analytics** | Decision cycles needed a decision-grade data layer to extract revenue-driving, model-optimizing insights from search-ad data | Decision-grade BigQuery SQL and Python analytics with consultants | Growth opportunities surfaced with insights; faster weekly decisions; support weekly exec readouts | **BigQuery SQL** (CTEs, window/analytic functions), **Python** (pandas), **Machine Learning (prediction, clustering, classification)**, Looker Studio Dashboards |
+| **P3. SQL Codebase Refactor & Data Ingestion and Extraction Pipelines** | Costly, slow queries; ad-hoc data pulls | Refactored entire SQL codebase and redefined KPI code; automated ingest and extract pipelines reused across workstreams | **Query runtime & cost ↓ ~40%**; pipelines power **~95%** of analyses | **BigQuery SQL**, **Python**, **Scheduled Jobs** |
 | **P5. Event-Driven Ad-Traffic Collector** | High latency and manual pulls on ad-traffic data | Automated event-driven collector in Python | **Retrieval latency ↓ ~88%** | **Python**, **Job Schedulers**, **HTTP/CSV ingestion** |
-| **P6. Incentive Targeting Analytics for Mid/Long-Tail Vendors** | Low activation in ad-ssetting of target segment | Pattern analysis of ad-setting behaviors; targeting design with client's strategy team and consultant| **Activation rate ↑ ~13%** on first month of activation| **BigQuery SQL**, **Python**, **Statistical Analysis**, **Experiment Design** |
+| **P6. Incentive Targeting Analytics for Mid/Long-Tail Vendors** | Low activation in ad-setting of target segment | Pattern analysis of ad-setting behaviors; targeting design with client's strategy team and consultant| **Activation rate ↑ ~13%** on first month of activation| **BigQuery SQL**, **Python**, **Statistical Analysis**, **Experiment Design** |
 
 ---
 
@@ -65,7 +64,7 @@ flowchart LR
 ---
 
 ### P2 — Search-Ad Analytics
-**Problem:**  Decision cycles needed a decision-grade data layer and to extract revenue-driving, model-optimizing insights from search-ad data.
+**Problem:**  Decision cycles needed a decision-grade data layer to extract revenue-driving, model-optimizing insights from search-ad data.
 
 **Solution:** Built a decision-grade analytics layer in BigQuery and a Python, ML pipeline for feature engineering, cohort clustering, and supervised classification/regression, and time-series baselines to extract insights that drive revenue from search-ad logs and optimize e-commerce ad models; delivered reusable SQL (CTEs/windows) and notebooks that power weekly executive readouts.
 
@@ -76,7 +75,7 @@ flowchart LR
 
 **Impact:**
 - Established a **decision-grade KPI layer** used across teams, supporting exec decisions with 4-5 analytic cases weekly.
-- Cut **time-to-insight to same-day** via parameterized BigQuery views and auto-refreshed Looker studio dashboards.
+- Cut **time-to-insight to same-day** via parameterized BigQuery views and auto-refreshed Looker Studio dashboards.
 - Produced **model-ready features and labels**, accelerating ranking and targeting experiments.
 
 ```mermaid
